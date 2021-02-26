@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -37,6 +38,7 @@ public class User implements Serializable {
 	private String password;
 
 	@OneToMany(mappedBy = "client") //opcional, caso queira acessar o usuário e ver seus pedidos
+	@JsonIgnore
 	private List<Order> orders = new ArrayList<>();
 
 	public User(Long id, String name, String email, String phone, String password) {
