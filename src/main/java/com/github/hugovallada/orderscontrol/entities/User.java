@@ -1,11 +1,10 @@
 package com.github.hugovallada.orderscontrol.entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -13,28 +12,38 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@SuppressWarnings("serial")
 @NoArgsConstructor
-@AllArgsConstructor
 @Getter
-@Setter
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
+@Table(name = "tb_user")
 public class User implements Serializable {
 	
 	@EqualsAndHashCode.Include
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
+
+	@Setter
 	private String name;
-	
+
+	@Setter
 	private String email;
-	
+
+	@Setter
 	private String phone;
-	
+
+	@Setter
 	private String password;
-	
-	
-	
+
+	@OneToMany(mappedBy = "client") //opcional, caso queira acessar o usuário e ver seus pedidos
+	private List<Order> orders = new ArrayList<>();
+
+	public User(Long id, String name, String email, String phone, String password) {
+		this.id = id;
+		this.name = name;
+		this.email = email;
+		this.phone = phone;
+		this.password = password;
+	}
 }
