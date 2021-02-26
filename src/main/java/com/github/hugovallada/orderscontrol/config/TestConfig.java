@@ -4,6 +4,7 @@ import java.time.Instant;
 import java.util.Arrays;
 
 import com.github.hugovallada.orderscontrol.entities.Order;
+import com.github.hugovallada.orderscontrol.entities.enums.OrderStatus;
 import com.github.hugovallada.orderscontrol.repositories.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -33,9 +34,9 @@ public class TestConfig implements CommandLineRunner {
 		
 		userRepository.saveAll(Arrays.asList(u1, u2));
 
-		Order o1 = new Order(null, Instant.parse("2019-06-20T19:53:07Z"), u1);
-		Order o2 = new Order(null, Instant.parse("2019-07-21T13:33:27Z"), u2);
-		Order o3 = new Order(null, Instant.parse("2020-03-10T08:19:43Z"), u1);
+		Order o1 = new Order(null, Instant.parse("2019-06-20T19:53:07Z"), OrderStatus.WAITING_PAYMENT, u1);
+		Order o2 = new Order(null, Instant.parse("2019-07-21T13:33:27Z"), OrderStatus.WAITING_PAYMENT,u2);
+		Order o3 = new Order(null, Instant.parse("2020-03-10T08:19:43Z"), OrderStatus.PAID,u1);
 
 		orderRepository.saveAll(Arrays.asList(o1,o2,o3));
 	}

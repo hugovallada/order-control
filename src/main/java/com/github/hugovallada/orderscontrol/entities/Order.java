@@ -2,6 +2,7 @@ package com.github.hugovallada.orderscontrol.entities;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.github.hugovallada.orderscontrol.entities.enums.OrderStatus;
 import lombok.*;
 
 import javax.persistence.*;
@@ -9,7 +10,6 @@ import java.io.Serializable;
 import java.time.Instant;
 
 @NoArgsConstructor
-@AllArgsConstructor
 @Getter
 @Setter
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
@@ -26,9 +26,28 @@ public class Order implements Serializable {
     // pattern para apresentação
     private Instant moment;
 
+    private Integer orderStatus;
+
     @ManyToOne
     @JoinColumn(
             name = "client_id"
     )
     private User client;
+
+    public Order(Long id, Instant moment, OrderStatus orderStatus, User client) {
+        this.id = id;
+        this.moment = moment;
+        setOrderStatus(orderStatus);
+        this.client = client;
+    }
+
+    public OrderStatus getOrderStatus(){
+        return OrderStatus.valueOf(orderStatus);
+    }
+
+    public void setOrderStatus(OrderStatus orderStatus) {
+        if(orderStatus != null ) {
+            this.orderStatus = orderStatus.getCode();
+        }
+    }
 }
