@@ -4,20 +4,14 @@ import java.time.Instant;
 import java.util.Arrays;
 import java.util.List;
 
-import com.github.hugovallada.orderscontrol.entities.Category;
-import com.github.hugovallada.orderscontrol.entities.Order;
-import com.github.hugovallada.orderscontrol.entities.Product;
+import com.github.hugovallada.orderscontrol.entities.*;
 import com.github.hugovallada.orderscontrol.entities.enums.OrderStatus;
-import com.github.hugovallada.orderscontrol.repositories.CategoryRepository;
-import com.github.hugovallada.orderscontrol.repositories.OrderRepository;
-import com.github.hugovallada.orderscontrol.repositories.ProductRepository;
+import com.github.hugovallada.orderscontrol.repositories.*;
+import org.aspectj.weaver.ast.Or;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
-
-import com.github.hugovallada.orderscontrol.entities.User;
-import com.github.hugovallada.orderscontrol.repositories.UserRepository;
 
 @Configuration
 @Profile("test")
@@ -26,13 +20,15 @@ public class TestConfig implements CommandLineRunner {
 	private OrderRepository orderRepository;
 	private CategoryRepository categoryRepository;
 	private ProductRepository productRepository;
+	private OrderItemRepository orderItemRepository;
 	
 	@Autowired
-	public TestConfig(UserRepository userRepository, OrderRepository orderRepository, CategoryRepository categoryRepository, ProductRepository productRepository) {
+	public TestConfig(UserRepository userRepository, OrderRepository orderRepository, CategoryRepository categoryRepository, ProductRepository productRepository, OrderItemRepository orderItemRepository) {
 		this.userRepository = userRepository;
 		this.orderRepository = orderRepository;
 		this.categoryRepository = categoryRepository;
 		this.productRepository = productRepository;
+		this.orderItemRepository = orderItemRepository;
 	}
 
 	@Override
@@ -72,6 +68,15 @@ public class TestConfig implements CommandLineRunner {
 		Order o3 = new Order(null, Instant.parse("2020-03-10T08:19:43Z"), OrderStatus.PAID,u1);
 
 		orderRepository.saveAll(Arrays.asList(o1,o2,o3));
+
+		// OrderItem
+
+		OrderItem oi1 = new OrderItem(o1, p1, 2, p1.getPrice());
+		OrderItem oi2 = new OrderItem(o1, p3, 1, p3.getPrice());
+		OrderItem oi3 = new OrderItem(o2, p3, 2, p3.getPrice());
+		OrderItem oi4 = new OrderItem(o3, p5, 2, p5.getPrice());
+
+		orderItemRepository.saveAll(Arrays.asList(oi1, oi2,oi3,oi4));
 
 	}
 	
