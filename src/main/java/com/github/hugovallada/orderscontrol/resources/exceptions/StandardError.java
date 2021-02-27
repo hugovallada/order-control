@@ -1,5 +1,6 @@
 package com.github.hugovallada.orderscontrol.resources.exceptions;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,6 +15,7 @@ import java.time.Instant;
 @Setter
 public class StandardError implements Serializable {
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'", timezone = "GMT")
     private Instant timestamp;
 
     private Integer status;
