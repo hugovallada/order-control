@@ -1,20 +1,19 @@
 package com.github.hugovallada.orderscontrol.entities;
 
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @NoArgsConstructor
 @Getter
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
-@Table(name="tb_product")
+@Table(name = "tb_product")
 public class Product implements Serializable {
 
     @EqualsAndHashCode.Include
@@ -42,11 +41,20 @@ public class Product implements Serializable {
     )
     private Set<Category> categories = new HashSet<>();
 
+    @Getter(value = AccessLevel.NONE)
+    @OneToMany(mappedBy = "id.product")
+    private Set<OrderItem> items = new HashSet<>();
+
     public Product(Long id, String name, String description, Double price, String imgUrl) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.price = price;
         this.imgUrl = imgUrl;
+    }
+
+    @JsonIgnore
+    public Set<Order> getOrders() {
+        return items.stream().map(item -> item.getOrder()).collect(Collectors.toSet());
     }
 }

@@ -2,7 +2,10 @@ package com.github.hugovallada.orderscontrol.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.github.hugovallada.orderscontrol.entities.pk.OrderItemPK;
-import lombok.*;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
@@ -19,10 +22,12 @@ public class OrderItem implements Serializable {
     @EmbeddedId
     private OrderItemPK id = new OrderItemPK();
 
-    @Getter @Setter
+    @Getter
+    @Setter
     private Integer quantity;
 
-    @Getter @Setter
+    @Getter
+    @Setter
     private Double price;
 
     public OrderItem(Order order, Product product, Integer quantity, Double price) {
@@ -45,11 +50,12 @@ public class OrderItem implements Serializable {
         id.setOrder(order);
     }
 
-    public Product getProduct(){
+    
+    public Product getProduct() {
         return id.getProduct();
     }
 
-    public void setProduct(Product product){
+    public void setProduct(Product product) {
         id.setProduct(product);
     }
 }
