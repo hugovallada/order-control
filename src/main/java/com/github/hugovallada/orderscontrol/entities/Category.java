@@ -1,5 +1,6 @@
 package com.github.hugovallada.orderscontrol.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -22,7 +23,9 @@ public class Category implements Serializable {
     @Setter
     private String name;
 
-    @Transient // Impede q a JPA interprete
+    //@Transient // Impede q a JPA interprete
+    @ManyToMany(mappedBy = "categories")
+    @JsonIgnore
     private Set<Product> products = new HashSet<>();
 
     public Category(Long id, String name) {
