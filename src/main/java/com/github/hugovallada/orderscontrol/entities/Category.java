@@ -4,9 +4,10 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 @NoArgsConstructor
-@AllArgsConstructor
 @Entity
 @Table(name = "tb_category")
 @Getter
@@ -21,4 +22,11 @@ public class Category implements Serializable {
     @Setter
     private String name;
 
+    @Transient // Impede q a JPA interprete
+    private Set<Product> products = new HashSet<>();
+
+    public Category(Long id, String name) {
+        this.id = id;
+        this.name = name;
+    }
 }
